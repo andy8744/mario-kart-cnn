@@ -1,0 +1,13 @@
+# Core ML stack (Apple Silicon + Metal)
+tensorflow-macos==2.15.0
+tensorflow-metal==1.1.0
+
+# Vision
+opencv-python==4.9.0.80
+numpy==1.26.4
+
+# Controller + networking
+pygame==2.5.2
+
+# Optional but recommended
+protobuf<4.24
