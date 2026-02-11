@@ -37,28 +37,23 @@ def main():
         ly = dz(js.get_axis(1))             # up/down (up=-1)
 
         # Raw physical buttons (your discovered indices)
-        phys_a = js.get_button(1)  # physical A
-        phys_b = js.get_button(3)  # physical B
-        phys_x = js.get_button(0)  # physical X
-        phys_y = js.get_button(2)  # physical Y
+        a = js.get_button(0)  # physical A
+        b = js.get_button(1)  # physical B
+        x = js.get_button(2)  # physical X
+        y = js.get_button(3)  # physical Y
 
         # Additional buttons
         phys_drift = js.get_button(10)   # drift (R)
         phys_pause = js.get_button(6)  # plus / pause
 
-        # Rotate clockwise: X->Y, Y->B, B->A, A->X
-        send_a = phys_x
-        send_b = phys_a
-        send_y = phys_b
-        send_x = phys_y
 
         pkt = {
             "lx": clamp(lx),
             "ly": clamp(ly),
-            "a": int(send_a),
-            "b": int(send_b),
-            "x": int(send_x),
-            "y": int(send_y),
+            "a": int(a),
+            "b": int(b),
+            "x": int(x),
+            "y": int(y),
 
             # auxiliary (logged, not used in v0 policy)
             "drift": int(phys_drift),
