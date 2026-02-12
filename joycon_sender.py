@@ -45,7 +45,7 @@ def main():
         # Additional buttons
         phys_drift = js.get_button(10)   # drift (R)
         phys_pause = js.get_button(6)  # plus / pause
-
+        phys_SL = js.get_button(9)
 
         pkt = {
             "lx": clamp(lx),
@@ -58,6 +58,7 @@ def main():
             # auxiliary (logged, not used in v0 policy)
             "drift": int(phys_drift),
             "pause": int(phys_pause),
+	    "SL": int(phys_SL),
 
             "ts": time.time(),
         }

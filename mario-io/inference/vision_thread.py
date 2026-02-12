@@ -18,6 +18,8 @@ class VisionInferenceThread(threading.Thread):
         self.capture_h = capture_h
         self.capture_fps = capture_fps
         self.infer_fps = infer_fps
+        self._lx_ema = 0.0
+        self._ema_alpha = 0.2   # 0.1–0.3 good range
 
         self.cap = None
 
@@ -61,8 +63,19 @@ class VisionInferenceThread(threading.Thread):
 
             # Forward pass (random weights)
             y = self.model(x, training=False).numpy()[0]
-            lx = float(np.clip(y[0], -1.0, 1.0))
-            ly = float(np.clip(y[1], -1.0, 1.0))
+
+            # Support either (2,) or (1,) outputs
+            if y.shape[0] == 1:
+                lx = float(np.clip(y[0], -1.0, 1.0))
+                ly = 0.0
+            else:
+                lx = float(np.clip(y[0], -1.0, 1.0))
+                ly = float(np.clip(y[1], -1.0, 1.0))
+
+
+            self._lx_ema = (1.0 - self._ema_alpha) * self._lx_ema + self._ema_alpha * lx
+            lx = self._lx_ema
+
 
             with self.lock:
                 self.shared["lx"] = lx
